@@ -17,6 +17,8 @@ export class ClonePipe implements PipeTransform {
         lastItems.push(cloneItem);
       }
     }
+
+    //1,2,3,4,5 => 4,5,1,2,3,4,5,1,2,3
     return Array.prototype.concat(lastItems,newArr,firstItems);
   }
 

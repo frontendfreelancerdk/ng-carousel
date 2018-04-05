@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 
 interface Image {
   title : string;
@@ -11,7 +11,7 @@ interface Image {
   templateUrl: 'slider.component.html',
   styleUrls  : ['slider.component.scss']
 })
-export class SliderComponent implements OnInit, OnDestroy {
+export class SliderComponent implements OnDestroy {
   @Input() images : Image[];
   @Input() autoplay = false;
   @Input() interval = 2000;
@@ -19,6 +19,10 @@ export class SliderComponent implements OnInit, OnDestroy {
   @Input() selectItem = true;
   @Input() shadow = '';
   @Input() maxSlidesToShow = 1;
+  @HostListener('window:resize',['$event']) onResize(event){
+    this.stop();
+    this.init();
+  }
   length;
   sliderWidth;
   slideWidth;
@@ -43,6 +47,7 @@ export class SliderComponent implements OnInit, OnDestroy {
     this.length = this.images.length;
     this.center = (this.sliderWidth - (this.length * this.slideWidth)) / 2 - (this.slideWidth * Math.floor(this.length / 2));
     this.left = this.center;
+    this.play();
   }
 
   getWidth(elem) {
@@ -91,10 +96,6 @@ export class SliderComponent implements OnInit, OnDestroy {
       this.left = this.center;
       this.animation = false;
     }, this.interval);
-  }
-
-  ngOnInit() {
-    this.play();
   }
 
   play() {
