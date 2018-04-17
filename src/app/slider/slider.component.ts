@@ -19,10 +19,13 @@ export class SliderComponent implements OnDestroy {
   @Input() selectItem = true;
   @Input() shadow = '';
   @Input() maxSlidesToShow = 1;
-  @HostListener('window:resize',['$event']) onResize(event){
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
     this.stop();
     this.init();
   }
+
   length;
   sliderWidth;
   slideWidth;
@@ -34,7 +37,6 @@ export class SliderComponent implements OnDestroy {
 
 
   constructor(private el : ElementRef) {
-
   }
 
   onLoad() {
@@ -45,7 +47,7 @@ export class SliderComponent implements OnDestroy {
     this.sliderWidth = this.getWidth(this.el.nativeElement);
     this.slideWidth = this.getWidth(this.el.nativeElement.querySelector('.ff-slider__slide'));
     this.length = this.images.length;
-    this.center = (this.sliderWidth - (this.length * this.slideWidth)) / 2 - (this.slideWidth * Math.floor(this.length / 2));
+    this.center = (this.sliderWidth - (this.length * this.slideWidth)) / 2 - (this.slideWidth * (this.length - 1) / 2);
     this.left = this.center;
     this.play();
   }
@@ -120,7 +122,12 @@ export class SliderComponent implements OnDestroy {
       return;
     }
     const position = this.position(i),
-      center = (Math.floor(this.length / 2) * this.slideWidth) + 2 * this.slideWidth;
+      // center = (Math.floor(this.length / 2) * this.slideWidth) + ((this.length % 2) + 1) * this.slideWidth;
+      // center = (this.slideWidth * this.length) / 2 - (this.slideWidth / 2);
+      center = this.slideWidth * this.length - this.slideWidth;
+    console.log(position);
+    console.log(center);
+    console.log(this.center);
     if (center === position.left) {
       return;
     } else if (center > position.left) {
@@ -179,14 +186,17 @@ export class SliderComponent implements OnDestroy {
       left: offset.left - parentOffset.left - parseFloat(style.marginLeft)
     };
   }
-  onDragStart(event){
-    console.log('start',event);
+
+  onDragStart(event) {
+    console.log('start', event);
   }
-  onDragEnd(event){
-    console.log('drag',event);
+
+  onDragEnd(event) {
+    console.log('drag', event);
 
   }
-  onDrag(event){
-    console.log('end',event);
+
+  onDrag(event) {
+    console.log('end', event);
   }
 }
