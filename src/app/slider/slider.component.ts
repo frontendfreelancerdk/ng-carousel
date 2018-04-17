@@ -15,10 +15,10 @@ export class SliderComponent implements OnDestroy {
   @Input() images : Image[];
   @Input() autoplay = false;
   @Input() interval = 2000;
+  @Input() animationDuration = 500;
   @Input() buttons = true;
   @Input() selectItem = true;
   @Input() shadow = '';
-  @Input() maxSlidesToShow = 1;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -35,7 +35,6 @@ export class SliderComponent implements OnDestroy {
   animation = false;
   transition = '0s';
 
-
   constructor(private el : ElementRef) {
   }
 
@@ -44,8 +43,8 @@ export class SliderComponent implements OnDestroy {
   }
 
   init() {
-    this.sliderWidth = this.getWidth(this.el.nativeElement);
     this.slideWidth = this.getWidth(this.el.nativeElement.querySelector('.ff-slider__slide'));
+    this.sliderWidth = this.getWidth(this.el.nativeElement);
     this.length = this.images.length;
     this.center = (this.sliderWidth - (this.length * this.slideWidth)) / 2 - (this.slideWidth * (this.length - 1) / 2);
     this.left = this.center;
@@ -66,7 +65,7 @@ export class SliderComponent implements OnDestroy {
       return;
     }
     this.animation = true;
-    this.transition = this.interval + "ms ease";
+    this.transition = this.animationDuration + "ms ease";
     this.left += left * -this.slideWidth;
     window.setTimeout(() => {
       while (left) {
@@ -77,7 +76,7 @@ export class SliderComponent implements OnDestroy {
       this.transition = '0s';
       this.left = this.center;
       this.animation = false;
-    }, this.interval);
+    }, this.animationDuration);
   }
 
   previousSlide(left) {
@@ -85,7 +84,7 @@ export class SliderComponent implements OnDestroy {
       return;
     }
     this.animation = true;
-    this.transition = this.interval + "ms ease";
+    this.transition = this.animationDuration + "ms ease";
     this.left += left * this.slideWidth;
     window.setTimeout(() => {
       while (left) {
@@ -97,7 +96,7 @@ export class SliderComponent implements OnDestroy {
       this.transition = '0s';
       this.left = this.center;
       this.animation = false;
-    }, this.interval);
+    }, this.animationDuration);
   }
 
   play() {
@@ -122,12 +121,7 @@ export class SliderComponent implements OnDestroy {
       return;
     }
     const position = this.position(i),
-      // center = (Math.floor(this.length / 2) * this.slideWidth) + ((this.length % 2) + 1) * this.slideWidth;
-      // center = (this.slideWidth * this.length) / 2 - (this.slideWidth / 2);
       center = this.slideWidth * this.length - this.slideWidth;
-    console.log(position);
-    console.log(center);
-    console.log(this.center);
     if (center === position.left) {
       return;
     } else if (center > position.left) {
@@ -187,16 +181,19 @@ export class SliderComponent implements OnDestroy {
     };
   }
 
-  onDragStart(event) {
+/*  onDragStart(event) {
     console.log('start', event);
-  }
-
-  onDragEnd(event) {
-    console.log('drag', event);
-
-  }
-
-  onDrag(event) {
-    console.log('end', event);
-  }
+    console.log('target', event.target.closest('.ff-slider__tracker'));
+    const element = event.target.closest('.ff-slider__tracker');
+    document.onmousemove = (e)=>{
+      if(element){
+         let x =e.pageX - element.getBoundingClientRect().left + pageXOffset;
+         element.style.left = x + 'px';
+      }
+      document.onmouseup = ()=>{
+        document.onmousemove = null;
+        document.onmouseup = null;
+      }
+    };
+  }*/
 }

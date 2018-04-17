@@ -42,6 +42,14 @@ $color_arrow: #173e49;
 :host {
   display: block;
   margin: auto;
+  & *{
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
 }
 
 .slides {

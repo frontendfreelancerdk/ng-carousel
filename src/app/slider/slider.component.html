@@ -1,6 +1,6 @@
 <div class="ff-slider" (mouseout)="play()" (mouseover)="stop()">
   <div class="prev" (click)="previousSlide(1)"></div>
-  <div class="ff-slider__list" (dragstart)="onDragStart($event)">
+  <div class="ff-slider__list">
     <div class="ff-slider__tracker" [ngStyle]="{left: left+'px', transition : transition}">
       <div #slide class="ff-slider__slide" *ngFor="let image of images | clone;let i = index"
            [ngClass]="{'center': i === currentTarget}"
