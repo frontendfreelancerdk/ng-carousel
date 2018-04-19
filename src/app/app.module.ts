@@ -1,22 +1,22 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 
 
-import {AppComponent} from './app.component';
-import {SliderComponent} from './slider/slider.component';
+import { AppComponent } from './app.component';
+import { CarouselComponent } from './slider/carousel.component';
 import { ClonePipe } from './slider/clone.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SliderComponent,
+    CarouselComponent,
     ClonePipe
   ],
-  imports: [
+  imports     : [
     BrowserModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers   : [],
+  bootstrap   : [AppComponent]
 })
 export class AppModule {
 }

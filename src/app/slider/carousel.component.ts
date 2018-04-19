@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnDestroy } from '@angular/core';
 
 interface Image {
   title : string;
@@ -7,11 +7,11 @@ interface Image {
 }
 
 @Component({
-  selector   : 'ff-slider',
-  templateUrl: 'slider.component.html',
-  styleUrls  : ['slider.component.scss']
+  selector   : 'ff-carousel',
+  templateUrl: 'carousel.component.html',
+  styleUrls  : ['carousel.component.scss']
 })
-export class SliderComponent implements OnDestroy {
+export class CarouselComponent implements OnDestroy {
   @Input() images : Image[];
   @Input() autoplay = false;
   @Input() interval = 2000;
@@ -21,8 +21,7 @@ export class SliderComponent implements OnDestroy {
   @Input() shadow = '';
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.stop();
+  onResize() {
     this.init();
   }
 
@@ -43,6 +42,7 @@ export class SliderComponent implements OnDestroy {
   }
 
   init() {
+    this.stop();
     this.slideWidth = this.getWidth(this.el.nativeElement.querySelector('.ff-slider__slide'));
     this.sliderWidth = this.getWidth(this.el.nativeElement);
     this.length = this.images.length;
@@ -52,6 +52,9 @@ export class SliderComponent implements OnDestroy {
   }
 
   getWidth(elem) {
+    if (!elem) {
+      return;
+    }
     const style = elem.currentStyle || window.getComputedStyle(elem),
       width = elem.offsetWidth,
       margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight),
@@ -157,7 +160,7 @@ export class SliderComponent implements OnDestroy {
     }
     let offsetParent, offset, doc,
       parentOffset = { top: 0, left: 0 };
-    if (elem.style.position === "fixed") {
+    if (elem.style.position === 'fixed') {
       offset = elem.getBoundingClientRect();
     } else {
       offset = this.offset(elem);
@@ -181,19 +184,19 @@ export class SliderComponent implements OnDestroy {
     };
   }
 
-/*  onDragStart(event) {
-    console.log('start', event);
-    console.log('target', event.target.closest('.ff-slider__tracker'));
-    const element = event.target.closest('.ff-slider__tracker');
-    document.onmousemove = (e)=>{
-      if(element){
-         let x =e.pageX - element.getBoundingClientRect().left + pageXOffset;
-         element.style.left = x + 'px';
-      }
-      document.onmouseup = ()=>{
-        document.onmousemove = null;
-        document.onmouseup = null;
-      }
-    };
-  }*/
+  /*  onDragStart(event) {
+      console.log('start', event);
+      console.log('target', event.target.closest('.ff-slider__tracker'));
+      const element = event.target.closest('.ff-slider__tracker');
+      document.onmousemove = (e)=>{
+        if(element){
+           let x =e.pageX - element.getBoundingClientRect().left + pageXOffset;
+           element.style.left = x + 'px';
+        }
+        document.onmouseup = ()=>{
+          document.onmousemove = null;
+          document.onmouseup = null;
+        }
+      };
+    }*/
 }

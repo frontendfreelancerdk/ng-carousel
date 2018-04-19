@@ -188,11 +188,8 @@ img {
     min-height: 1px;
     text-align: center;
     margin: 0px 20px;
-    //TODO move to option object
-    //width: 160px;
     &:not(.center) {
       cursor: pointer;
-      //transform: scale(0.7);
       opacity: 0.25;
     }
   }
